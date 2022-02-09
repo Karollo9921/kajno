@@ -14,8 +14,9 @@ class AppServer {
   listen() {
     this.app.listen(this.port, () => {
       console.log(`========= ENV: ${this.env} ==========`);
-      console.log(`🚀 Server listening on the port ${this.port}`);
+      console.log(`🚀 Server listening hard on the port ${this.port}`);
     });
   }
 }
+
 module.exports = AppServer;
