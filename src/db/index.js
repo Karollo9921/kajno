@@ -26,7 +26,7 @@ db.sequelize = sequelize;
 db.users = require("../resources/user/user.model")(sequelize, DataTypes);
 
 
-db.sequelize.sync({ force: true })
+db.sequelize.sync({ force: false })
   .then(() => {
     console.log('All models were synchronized successfully.');
   })

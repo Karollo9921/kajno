@@ -10,7 +10,7 @@ const UserController = require('./resources/user/user.controller');
 const AppServer = require("./app");
 
 const server = new AppServer([ 
-  new UserController('/api') 
+  new UserController('') 
 ]);
 
 server.listen();

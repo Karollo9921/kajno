@@ -2,39 +2,36 @@ const { Router } = require("express");
 const UserService = require("./user.service");
 
 class UserController {
-  
-  UserService = new UserService();
-  router = Router();
 
+  // UserService = new UserService();
+  router = Router();
+  
   constructor(path) {
     this.path = path;
-
-
-    this.#initialiseRoutes();
+    this.initialiseRoutes();
   }
 
-  #initialiseRoutes() {
+  initialiseRoutes() {
     this.router.post(
       `${this.path}/register`,
-      this.#register
+      this.register
     );
 
     this.router.post(
       `${this.path}/login`,
-      this.#login
+      this.login
     );
 
     this.router.get(
-      `${this.path}/get-users`,
-      this.#getUsers
+      `${this.path}/users`,
+      this.getUsers
     )
   };
 
-  async #register(req, res) {
+  async register(req, res) {
     try {
       const { login, password } = req.body;
-
-      const response = await this.UserService.register(
+      const response = await UserService.register(
         login,
         password
       );
@@ -46,28 +43,29 @@ class UserController {
     }
   }
 
-  async #login(req, res) {
+  async login(req, res) {
     try {
       const { login, password } = req.body;
 
-      const response = await this.UserService.login(
+      const response = await UserService.login(
         login,
         password
       );
 
-      res.status(200).json({ response });
+      return res.status(200).json({ response });
 
     } catch (error) {
-      res.status(400).json({ error });
+      return res.status(400).json({ error });
     }
   }
 
-  async #getUsers(req, res) {
-    if (!req.user) {
-      return next(new HttpException(404, 'No logged in user'));
+  async getUsers(req, res) {
+    try {
+      const users = await UserService.getUsers();
+      return res.status(200).json({ users });
+    } catch (error) {
+      return res.status(400).json({ error: error });
     }
-
-    res.status(200).send({ data: req.user });
   }
 };
 
