@@ -1,0 +1,21 @@
+{
+  "name": "gnx_api_practice",
+  "version": "1.0.0",
+  "description": "GetnowX API Practice Boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "start": "docker-compose up -d && docker-compose logs -f api",
+    "end": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GetnowX-devteam/gnx_api_practice.git"
+  },
+  "keywords": [],
+  "author": "Igor Dudek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GetnowX-devteam/gnx_api_practice/issues"
+  },
+  "homepage": "https://github.com/GetnowX-devteam/gnx_api_practice#readme"
+}
