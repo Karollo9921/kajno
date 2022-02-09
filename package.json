@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GetnowX-devteam/gnx_api_practice.git"
+    "url": "git+https://github.com/Karollo9921/kajno"
   },
   "keywords": [],
   "author": "Igor Dudek",
@@ -20,6 +20,8 @@
   "homepage": "https://github.com/GetnowX-devteam/gnx_api_practice#readme",
   "dependencies": {
     "config": "^3.3.7",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.16.1"
   }
 }
