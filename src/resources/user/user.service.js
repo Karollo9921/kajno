@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const db = require("../../db/index");
 const UserModel = db.users;
 
@@ -13,8 +15,6 @@ class UserService {
           login: login
         }
       });
-
-      console.log(`User: ${user == false}`);
 
       if (user.length > 0) {
         return 'User already exists!';
@@ -48,8 +48,9 @@ class UserService {
       if (user.length === 0) {
         return 'Unable to find user with that login';
       };
-  
-      if (user[0].password === password) {
+      
+      let isPasswordCorrect = await bcrypt.compare(password, user[0].password)
+      if (isPasswordCorrect) {
         return 'LoggedIn!';
       } else {
         return 'Password incorrect !';

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/GetnowX-devteam/gnx_api_practice#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "config": "^3.3.7",
     "express": "^4.17.2",
     "mysql2": "^2.3.3",

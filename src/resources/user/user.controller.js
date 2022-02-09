@@ -3,7 +3,6 @@ const UserService = require("./user.service");
 
 class UserController {
 
-  // UserService = new UserService();
   router = Router();
   
   constructor(path) {
