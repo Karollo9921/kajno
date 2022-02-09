@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/GetnowX-devteam/gnx_api_practice/issues"
   },
-  "homepage": "https://github.com/GetnowX-devteam/gnx_api_practice#readme"
+  "homepage": "https://github.com/GetnowX-devteam/gnx_api_practice#readme",
+  "dependencies": {
+    "config": "^3.3.7",
+    "express": "^4.17.2"
+  }
 }
