@@ -1,3 +1,6 @@
+// import constrollers
+const UserController = require('./resources/user/user.controller');
+
 /**
  * @author  Igor Dudek
  * @module  AppServer
@@ -5,5 +8,9 @@
  *          Come on, baby, light my fire 🔥
  */
 const AppServer = require("./app");
-const server = new AppServer();
+
+const server = new AppServer([ 
+  new UserController('/api') 
+]);
+
 server.listen();

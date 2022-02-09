@@ -1,6 +1,5 @@
 const express = require("express");
 const config = require("config");
-const { Sequelize } = require("sequelize")
 
 class AppServer {
   constructor(controllers) {
@@ -9,6 +8,7 @@ class AppServer {
     this.app = express();
     this.port = config.get("app.port");
     this.env = config.get("app.env");
+    this.app.use(express.json());
 
     this.#initialiseControlles();
     this.#initialiseDatabaseConnection();
@@ -20,22 +20,7 @@ class AppServer {
    */
 
   #initialiseDatabaseConnection() {
-    const sequelize = new Sequelize(
-      config.get("dbConfig.database"),
-      config.get("dbConfig.username"),
-      config.get("dbConfig.password"), {
-        host: config.get("dbConfig.host"),
-        dialect: config.get("dbConfig.dialect")
-      }
-    )
-
-    sequelize.authenticate()
-      .then(() => {
-        console.log('Connected to MYSQL...');
-      })
-      .catch((error) => {
-        console.log(`Error: ${error}`);
-      });
+    
   };
 
   #initialiseControlles() {
