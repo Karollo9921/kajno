@@ -26,7 +26,9 @@ db.sequelize = sequelize;
 db.users = require("../resources/user/user.model")(sequelize, DataTypes);
 db.movies = require("../resources/movie/movie.model")(sequelize, DataTypes);
 db.screenings = require("../resources/screening/screening.model")(sequelize, DataTypes);
-
+db.tickets = require("../resources/ticket/ticket.model")(sequelize, DataTypes);
+db.rooms = require("../resources/room/room.model")(sequelize, DataTypes);
+db.seats = require("../resources/seat/seat.model")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: true })
   .then(() => {
@@ -36,11 +38,11 @@ db.sequelize.sync({ force: true })
     console.log(`Error: ${error}`);
   })
 
-
 // One to Many Relation
 db.movies.hasMany(db.screenings, {
   foreignKey: 'movie_id',
-  as: 'screening'
+  as: 'screening',
+  onDelete: 'CASCADE'
 });
 
 db.screenings.belongsTo(db.movies, {

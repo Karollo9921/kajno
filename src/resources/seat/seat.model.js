@@ -1,22 +1,22 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Ticket extends Model {}
+  class Seat extends Model {}
 
-  Ticket.init({
+  Seat.init({
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-    price: {
-      type: DataTypes.DECIMAL(10, 2),
+    nameOfPlace: {
+      type: DataTypes.STRING,
       allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Ticket',
+    modelName: 'Seat',
   })
 
-  return Ticket;
+  return Seat;
 };

@@ -13,10 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    theClosestDateOfTheScreening : {
+    theClosestDateOfTheScreening: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
+    yearOfRelease: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Movie',
