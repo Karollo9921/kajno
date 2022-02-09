@@ -16,10 +16,10 @@ services:
   db:
     image: mariadb:10
     environment:
-      MYSQL_ROOT_PASSWORD: 123qweasd
-      MYSQL_DATABASE: express_sequelize
+      MYSQL_DATABASE: GetnowX
+      MYSQL_ROOT_PASSWORD: root
     volumes:
-      - express_sequelize:/var/lib/mysql
+      - getnowx_practice:/var/lib/mysql
   phpmyadmin:
     image: phpmyadmin
     ports:
@@ -31,4 +31,4 @@ services:
       - db
 
 volumes:
-  express_sequelize:
+  getnowx_practice:
