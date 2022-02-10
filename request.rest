@@ -8,6 +8,51 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/api/rooms/create
+Content-Type: application/json
+
+{
+  "name": "Drama",
+  "numOfRows": "13",
+  "numOfColumns": "20",
+  "number": "1"
+}
+
+###
+
+POST http://localhost:3000/api/rooms/create
+Content-Type: application/json
+
+{
+  "name": "Comedy",
+  "numOfRows": "14",
+  "numOfColumns": "16",
+  "number": "2"
+}
+
+###
+
+POST http://localhost:3000/api/movies/create
+Content-Type: application/json
+
+{
+  "title": "Star Wars",
+  "yearOfRelease": "2005"
+}
+
+###
+
+POST http://localhost:3000/api/screenings/create
+Content-Type: application/json
+
+{
+  "dateOfScreening": "2022-02-13 17:00",
+  "idMovie": "1",
+  "idRoom": "1"
+}
+
+###
+
 POST http://localhost:3000/api/login
 Content-Type: application/json
 
@@ -18,4 +63,32 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/api/tickets/create
+Content-Type: application/json
+
+{
+  "price": "12.56",
+  "place": "A13",
+  "idScreening": "1"
+}
+
+###
+
+PATCH http://localhost:3000/api/tickets/buy
+Content-Type: application/json
+
+{
+  "idTicket": "1"
+}
+
+###
+
 GET http://localhost:3000/api/users
+
+###
+
+GET http://localhost:3000/api/movies/1
+
+###
+
+GET http://localhost:3000/api/tickets

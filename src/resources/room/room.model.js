@@ -1,4 +1,4 @@
-const { Model } = require("sequelize");
+const { Sequelize, Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Room extends Model {}
@@ -9,8 +9,18 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     number: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
+    },
+    places: {
+      type: Sequelize.JSON,
       allowNull: false
     }
   }, {

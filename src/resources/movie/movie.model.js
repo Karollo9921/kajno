@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     theClosestDateOfTheScreening: {
       type: DataTypes.DATEONLY,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null
     },
     yearOfRelease: {
       type: DataTypes.BIGINT,

@@ -1,4 +1,4 @@
-const { Model } = require("sequelize");
+const { Sequelize, Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
@@ -18,6 +18,16 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    boughtTickets: {
+      type: Sequelize.JSON,
+      allowNull: true,
+      // get() {
+      //   return this.getDataValue('boughtTickets').split(';')
+      // },
+      // set(val) {
+      //   this.setDataValue('boughtTickets',val.join(';'));
+      // },
     }
   }, {
     hooks: {

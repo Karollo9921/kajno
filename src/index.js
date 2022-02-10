@@ -1,5 +1,10 @@
 // import constrollers
 const UserController = require('./resources/user/user.controller');
+const RoomController = require('./resources/room/room.controller');
+const MovieController = require('./resources/movie/movie.controller');
+const ScreeningController = require('./resources/screening/screening.controller');
+const TicketController = require('./resources/ticket/ticket.controller');
+const ClientCardController = require('./resources/clientcard/clientcard.controller');
 
 /**
  * @author  Igor Dudek
@@ -10,7 +15,12 @@ const UserController = require('./resources/user/user.controller');
 const AppServer = require("./app");
 
 const server = new AppServer([ 
-  new UserController('') 
+  new UserController(''),
+  new RoomController(''),
+  new MovieController(''),
+  new ScreeningController(''),
+  new TicketController(''),
+  new ClientCardController('')
 ]);
 
 server.listen();

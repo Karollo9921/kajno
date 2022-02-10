@@ -10,6 +10,7 @@ class UserService {
     password
   ) {
     try {
+
       const user = await UserModel.findAll({
         where: {
           login: login
@@ -21,7 +22,8 @@ class UserService {
       } else {
         const newUser = await UserModel.create({ 
           login: login, 
-          password: password 
+          password: password,
+          boughtTickets: []
         });
 
         await newUser.save();

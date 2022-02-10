@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const config = require("config");
 
 class AppServer {
@@ -9,6 +10,7 @@ class AppServer {
     this.port = config.get("app.port");
     this.env = config.get("app.env");
     this.express.use(express.json());
+    this.express.use(session({ secret: 'secret' }));
 
     this.#initialiseControlles();
 

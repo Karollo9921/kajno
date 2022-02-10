@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
     host: config.get("dbConfig.host"),
     dialect: config.get("dbConfig.dialect")
   }
-)
+);
 
 sequelize.authenticate()
   .then(() => {
@@ -28,7 +28,7 @@ db.movies = require("../resources/movie/movie.model")(sequelize, DataTypes);
 db.screenings = require("../resources/screening/screening.model")(sequelize, DataTypes);
 db.tickets = require("../resources/ticket/ticket.model")(sequelize, DataTypes);
 db.rooms = require("../resources/room/room.model")(sequelize, DataTypes);
-db.seats = require("../resources/seat/seat.model")(sequelize, DataTypes);
+db.clientcards = require("../resources/clientcard/clientcard.model")(sequelize, DataTypes);
 
 db.sequelize.sync({ force: true })
   .then(() => {
@@ -38,17 +38,78 @@ db.sequelize.sync({ force: true })
     console.log(`Error: ${error}`);
   })
 
-// One to Many Relation
+
+// %%%%%%%%%%%%%%%%%%%%%%%
+// ONE to MANY Association
+// %%%%%%%%%%%%%%%%%%%%%%%
+
+// MOVIE - SCREENING RELATION
 db.movies.hasMany(db.screenings, {
   foreignKey: 'movie_id',
-  as: 'screening',
   onDelete: 'CASCADE'
 });
 
 db.screenings.belongsTo(db.movies, {
-  foreignKey: 'movie_id',
-  as: 'movie'
+  foreignKey: 'movie_id'
+});
+
+// ROOM - SCREENING RELATION
+db.rooms.hasMany(db.screenings, {
+  foreignKey: 'room_id',
+  onDelete: 'CASCADE'
+});
+
+db.screenings.belongsTo(db.rooms, {
+  foreignKey: 'room_id'
+});
+
+// USER - TICKET RELATION
+db.users.hasMany(db.tickets, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
+});
+
+db.tickets.belongsTo(db.users, {
+  foreignKey: 'user_id'
+});
+
+// TICKET - SCREENING RELATION
+db.screenings.hasMany(db.tickets, {
+  foreignKey: 'screening_id',
+  onDelete: 'CASCADE'
+});
+
+db.tickets.belongsTo(db.screenings, {
+  foreignKey: 'screening_id'
 });
 
 
+// %%%%%%%%%%%%%%%%%%%%%%%%
+// MANY to MANY Association
+// %%%%%%%%%%%%%%%%%%%%%%%%
+
+// USER - SCREENING RELATION
+db.users.belongsToMany(db.screenings, { through: 'UserScreening' });
+db.screenings.belongsToMany(db.users, { through: 'UserScreening' });
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%
+// ONE to ONE Association
+// %%%%%%%%%%%%%%%%%%%%%%%%
+
+// USER - CLIENTCARD RELATION
+db.users.hasOne(db.clientcards, {
+  foreignKey: 'user_id',
+  onDelete: 'CASCADE'
+});
+
+db.clientcards.belongsTo(db.users, {
+  foreignKey: 'card_id',
+  onDelete: 'CASCADE'
+});
+
+
+// %%%%%%%%%%%%%%%%%%
+// EXPORT DB VARIABLE
+// %%%%%%%%%%%%%%%%%%
 module.exports = db;
