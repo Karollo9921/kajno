@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const RoomService = require("./room.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
 /**
 * @author  Karol Kluba
 * @module  RoomController
@@ -27,7 +29,11 @@ class RoomController {
     )
   };
 
-  async createRoom(req, res) {
+  async createRoom(
+    req, 
+    res,
+    next
+  ) {
     try {
       const { name, numOfRows, numOfColumns, number } = req.body;
       const response = await RoomService.createRoom(
@@ -38,18 +44,22 @@ class RoomController {
       );
 
       res.status(201).json({ response });
-
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, error.message));
     }
   }
 
-  async getRooms(req, res) {
+  async getRooms(
+    req, 
+    res,
+    next
+  ) {
     try {
       const rooms = await RoomService.getRooms();
-      return res.status(200).json({ rooms });
+
+      res.status(200).json({ rooms });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      next(new HttpException(404, error.message));
     }
   }
 };

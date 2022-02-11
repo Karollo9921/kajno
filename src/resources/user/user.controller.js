@@ -54,7 +54,6 @@ class UserController {
       );
 
       res.status(201).json({ response });
-
     } catch (error) {
       next(new HttpException(400, error.message));
     }
@@ -83,7 +82,11 @@ class UserController {
     }
   };
 
-  async getUsers(req, res) {
+  async getUsers(
+    req, 
+    res,
+    next
+  ) {
     try {
       const users = await UserService.getUsers();
       return res.status(200).json({ users });

@@ -47,31 +47,39 @@ class MovieController {
       );
 
       res.status(201).json({ response });
-
     } catch (error) {
       next(new HttpException(400, 'Cannot create a Movie'));
     }
   }
 
-  async getMovies(req, res) {
+  async getMovies(
+    req, 
+    res,
+    next
+  ) {
     try {
       const movies = await MovieService.getMovies();
-      return res.status(200).json({ movies });
+
+      res.status(200).json({ movies });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      next(new HttpException(404, error.message));
     }
   };
 
-  async getMovie(req, res) {
+  async getMovie(
+    req, 
+    res,
+    next
+  ) {
     try {
       const id = req.params.id;
       const movie = await MovieService.getMovies(id);
-      return res.status(200).json({ movie });
+
+      res.status(200).json({ movie });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      next(new HttpException(404, error.message));
     }
   };
-
 };
 
 module.exports = MovieController;

@@ -30,7 +30,7 @@ class ClientCardService {
         }
       }
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -45,7 +45,7 @@ class ClientCardService {
       }
       return await ClientCardModel.findAll({ where: { user_id: userId } });
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 };

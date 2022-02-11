@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const TicketService = require("./ticket.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
 /**
 * @author  Karol Kluba
 * @module  TicketController
@@ -32,7 +34,11 @@ class TicketController {
     );
   };
 
-  async createTicket(req, res) {
+  async createTicket(
+    req, 
+    res,
+    next
+  ) {
     try {
       const { price, place, idScreening } = req.body;
       const response = await TicketService.createTicket(
@@ -42,13 +48,16 @@ class TicketController {
       );
 
       res.status(201).json({ response });
-
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, error.message));
     }
   };
 
-  async buyATicket(req, res) {
+  async buyATicket(
+    req, 
+    res,
+    next
+  ) {
     try {
       let { idTicket } = req.body;
       let login = req.session.user;
@@ -57,7 +66,7 @@ class TicketController {
 
       res.status(200).json({ response });
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(403, error.message));
     }
   };
 
@@ -65,9 +74,10 @@ class TicketController {
     try {
       let screeningId = req.params.id;
       let tickets = await TicketService.getTickets(screeningId);
-      return res.status(200).json({ tickets });
+
+      res.status(200).json({ tickets });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      next(new HttpException(404, error.message));
     }
   };
 };

@@ -36,7 +36,7 @@ class MovieService {
       }
 
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -44,7 +44,7 @@ class MovieService {
     try {
       return await MovieModel.findAll();
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 

@@ -59,7 +59,7 @@ class RoomService {
       }
 
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -67,7 +67,7 @@ class RoomService {
     try {
       return await RoomModel.findAll();
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 };

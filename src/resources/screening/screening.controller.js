@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const ScreeningService = require("./screening.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
 /**
 * @author  Karol Kluba
 * @module  ScreeningController
@@ -33,7 +35,11 @@ class ScreeningController {
 
   };
 
-  async createScreening(req, res) {
+  async createScreening(
+    req, 
+    res,
+    next
+  ) {
     try {
       const { dateOfScreening, idMovie, idRoom } = req.body;
       const response = await ScreeningService.createScreening(
@@ -44,28 +50,37 @@ class ScreeningController {
       );
 
       res.status(201).json({ response });
-
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, error.message));
     }
-  }
+  };
 
-  async getScreenings(req, res) {
+  async getScreenings(
+    req, 
+    res,
+    next
+  ) {
     try {
       const screenings = await ScreeningService.getScreenings();
-      return res.status(200).json({ screenings });
-    } catch (error) {
-      return res.status(400).json({ error: error });
-    }
-  }
 
-  async setToAlreadyStarted(req, res) {
+      res.status(200).json({ screenings });
+    } catch (error) {
+      next(new HttpException(404, error.message));
+    }
+  };
+
+  async setToAlreadyStarted(
+    req, 
+    res,
+    next
+  ) {
     try {
       let idScreening = req.params.id;
       let response = await ScreeningService.setToAlreadyStarted(idScreening);
-      return res.status(200).json({ response });
+
+      res.status(200).json({ response });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      next(new HttpException(403, error.message));
     }
   };
 };

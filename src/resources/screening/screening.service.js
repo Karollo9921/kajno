@@ -79,7 +79,7 @@ class ScreeningService {
       }
       
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -119,7 +119,7 @@ class ScreeningService {
       };
 
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -127,7 +127,7 @@ class ScreeningService {
     try {
       return await ScreeningModel.findAll();
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 };

@@ -41,7 +41,7 @@ class TicketService {
       }
       
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   };
 
@@ -108,7 +108,7 @@ class TicketService {
       }
 
     } catch (error) {
-      
+      throw new Error(error.message);
     }
   };
 
@@ -126,7 +126,7 @@ class TicketService {
         throw new Error('That screening does not exists!')
       }
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   };
 };
