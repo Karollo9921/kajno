@@ -39,9 +39,9 @@ db.sequelize.sync({ force: true })
   })
 
 
-// %%%%%%%%%%%%%%%%%%%%%%%
-// ONE to MANY Association
-// %%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%
+// ONE to MANY Associations
+// %%%%%%%%%%%%%%%%%%%%%%%%
 
 // MOVIE - SCREENING RELATION
 db.movies.hasMany(db.screenings, {
@@ -84,18 +84,18 @@ db.tickets.belongsTo(db.screenings, {
 });
 
 
-// %%%%%%%%%%%%%%%%%%%%%%%%
-// MANY to MANY Association
-// %%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%%%
+// MANY to MANY Associations
+// %%%%%%%%%%%%%%%%%%%%%%%%%
 
 // USER - SCREENING RELATION
 db.users.belongsToMany(db.screenings, { through: 'UserScreening' });
 db.screenings.belongsToMany(db.users, { through: 'UserScreening' });
 
 
-// %%%%%%%%%%%%%%%%%%%%%%%%
-// ONE to ONE Association
-// %%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%%
+// ONE to ONE Associations
+// %%%%%%%%%%%%%%%%%%%%%%%
 
 // USER - CLIENTCARD RELATION
 db.users.hasOne(db.clientcards, {

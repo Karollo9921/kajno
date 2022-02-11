@@ -16,11 +16,11 @@ const AppServer = require("./app");
 
 const server = new AppServer([ 
   new UserController(''),
-  new RoomController(''),
-  new MovieController(''),
-  new ScreeningController(''),
-  new TicketController(''),
-  new ClientCardController('')
+  new RoomController('/rooms'),
+  new MovieController('/movies'),
+  new ScreeningController('/screenings'),
+  new TicketController('/tickets'),
+  new ClientCardController('/cards')
 ]);
 
 server.listen();

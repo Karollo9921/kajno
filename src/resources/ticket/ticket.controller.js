@@ -12,19 +12,19 @@ class TicketController {
 
   initialiseRoutes() {
     this.router.post(
-      `${this.path}/tickets/create`,
+      `${this.path}/create`,
       this.createTicket
     );
 
     this.router.patch(
-      `${this.path}/tickets/buy`,
+      `${this.path}/:id/buy`,
       this.buyATicket
     );
 
     this.router.get(
-      `${this.path}/tickets`,
+      `${this.path}/:id`,
       this.getTickets
-    )
+    );
   };
 
   async createTicket(req, res) {
@@ -58,7 +58,8 @@ class TicketController {
 
   async getTickets(req, res) {
     try {
-      const tickets = await TicketService.getTickets();
+      let screeningId = req.params.id;
+      let tickets = await TicketService.getTickets(screeningId);
       return res.status(200).json({ tickets });
     } catch (error) {
       return res.status(400).json({ error: error });

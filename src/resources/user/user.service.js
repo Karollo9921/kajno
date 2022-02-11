@@ -28,7 +28,10 @@ class UserService {
 
         await newUser.save();
 
-        return 'Created!'
+        return { 
+          message: 'Created!',
+          user: newUser
+        }
       }
 
     } catch (error) {

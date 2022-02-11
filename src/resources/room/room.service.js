@@ -52,7 +52,10 @@ class RoomService {
 
         await newRoom.save();
 
-        return 'Created!'
+        return { 
+          message: 'Created!',
+          room: newRoom
+        }
       }
 
     } catch (error) {

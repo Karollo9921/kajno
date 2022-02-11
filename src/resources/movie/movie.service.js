@@ -29,7 +29,10 @@ class MovieService {
 
         await newMovie.save();
 
-        return 'Created!'
+        return { 
+          message: 'Created!',
+          movie: newMovie
+        }
       }
 
     } catch (error) {

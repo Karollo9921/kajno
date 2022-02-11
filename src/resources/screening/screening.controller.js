@@ -1,6 +1,11 @@
 const { Router } = require("express");
 const ScreeningService = require("./screening.service");
 
+/**
+* @author  Karol Kluba
+* @module  ScreeningController
+* @info    Routes Controller for Screening Table
+*/
 class ScreeningController {
 
   router = Router();
@@ -12,14 +17,20 @@ class ScreeningController {
 
   initialiseRoutes() {
     this.router.post(
-      `${this.path}/screenings/create`,
+      `${this.path}/create`,
       this.createScreening
     );
 
     this.router.get(
-      `${this.path}/screenings`,
+      `${this.path}`,
       this.getScreenings
-    )
+    );
+    
+    this.router.patch(
+      `${this.path}/started/:id`,
+      this.setToAlreadyStarted
+    );
+
   };
 
   async createScreening(req, res) {
@@ -47,6 +58,16 @@ class ScreeningController {
       return res.status(400).json({ error: error });
     }
   }
+
+  async setToAlreadyStarted(req, res) {
+    try {
+      let idScreening = req.params.id;
+      let response = await ScreeningService.setToAlreadyStarted(idScreening);
+      return res.status(200).json({ response });
+    } catch (error) {
+      return res.status(400).json({ error: error });
+    }
+  };
 };
 
 module.exports = ScreeningController;

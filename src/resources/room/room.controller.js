@@ -1,6 +1,11 @@
 const { Router } = require("express");
 const RoomService = require("./room.service");
 
+/**
+* @author  Karol Kluba
+* @module  RoomController
+* @info    Routes Controller for Rooms Table
+*/
 class RoomController {
 
   router = Router();
@@ -12,12 +17,12 @@ class RoomController {
 
   initialiseRoutes() {
     this.router.post(
-      `${this.path}/rooms/create`,
+      `${this.path}/create`,
       this.createRoom
     );
 
     this.router.get(
-      `${this.path}/rooms`,
+      `${this.path}`,
       this.getRooms
     )
   };

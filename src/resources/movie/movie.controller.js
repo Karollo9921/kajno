@@ -1,6 +1,11 @@
 const { Router } = require("express");
 const MovieService = require("./movie.service");
 
+/**
+* @author  Karol Kluba
+* @module  MovieController
+* @info    Routes Controller for Movies Table
+*/
 class MovieController {
 
   router = Router();
@@ -12,17 +17,17 @@ class MovieController {
 
   initialiseRoutes() {
     this.router.post(
-      `${this.path}/movies/create`,
+      `${this.path}/create`,
       this.createMovie
     );
 
     this.router.get(
-      `${this.path}/movies`,
+      `${this.path}`,
       this.getMovies
     )
 
     this.router.get(
-      `${this.path}/movies/:id`,
+      `${this.path}/:id`,
       this.getMovie
     )
   };
