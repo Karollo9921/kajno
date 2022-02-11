@@ -29,7 +29,7 @@ class AppServer {
   listen() {
     this.express.listen(this.port, () => {
       console.log(`========= ENV: ${this.env} ==========`);
-      console.log(`🚀 Server listening hard on the port ${this.port}`);
+      console.log(`🚀 Server is listening very hard on the port ${this.port}`);
     });
   }
 }

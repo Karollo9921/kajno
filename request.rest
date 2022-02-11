@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "login": "Karol",
-  "password": "qwerty"
+  "password": "qwerty12"
 }
 
 ###
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "login": "Karol",
-  "password": "qwerty"
+  "password": "qwerty12"
 }
 
 ###

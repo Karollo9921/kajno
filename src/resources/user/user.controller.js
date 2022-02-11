@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const UserService = require("./user.service");
 
+// validation
+const validate = require("./user.validation");
+const validationMiddleware = require("../../middlewares/validation.middleware");
+
 class UserController {
 
   router = Router();
@@ -13,11 +17,13 @@ class UserController {
   initialiseRoutes() {
     this.router.post(
       `${this.path}/register`,
+      validationMiddleware(validate.register),
       this.register
     );
 
     this.router.post(
       `${this.path}/login`,
+      validationMiddleware(validate.login),
       this.login
     );
 
