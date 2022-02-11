@@ -1,11 +1,11 @@
 const { Router } = require("express");
 const ClientCardService = require("./clientcard.service");
 
-  /**
-  * @author  Karol Kluba
-  * @module  ClientCardController
-  * @info    Routes Controller for User's Cards
-  */
+/**
+* @author  Karol Kluba
+* @module  ClientCardController
+* @info    Routes Controller for User's Cards
+*/
 class ClientCardController {
 
   router = Router();

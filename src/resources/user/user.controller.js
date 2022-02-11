@@ -5,6 +5,11 @@ const UserService = require("./user.service");
 const validate = require("./user.validation");
 const validationMiddleware = require("../../middlewares/validation.middleware");
 
+/**
+* @author  Karol Kluba
+* @module  UserController
+* @info    Routes Controller for User's registration/login
+*/
 class UserController {
 
   router = Router();

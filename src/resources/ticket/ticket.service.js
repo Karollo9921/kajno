@@ -93,6 +93,15 @@ class TicketService {
 
       ticket = await TicketModel.findOne({ where: { id: idTicket } });
 
+      let userBoughtTickets = await JSON.parse(user[0].getDataValue('boughtTickets'));
+      userBoughtTickets.push(ticket);
+
+      await UserModel.update({ boughtTickets: userBoughtTickets }, {
+        where: {
+          login: login
+        }
+      });
+
       return { 
         message: 'Bought!',
         yourTicket: ticket

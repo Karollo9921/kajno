@@ -1,6 +1,11 @@
 const { Router } = require("express");
 const TicketService = require("./ticket.service");
 
+/**
+* @author  Karol Kluba
+* @module  TicketController
+* @info    Routes Controller for Tickets
+*/
 class TicketController {
 
   router = Router();
