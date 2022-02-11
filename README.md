@@ -5,7 +5,7 @@ clone repository<br />
 npm install
 npm start
 
-<h4>Install in VSC REST Client extension and test API by request.rest file</h4><br />
+<h5>Install in VSC REST Client extension and test API by request.rest file</h5>
 <br />
 
 <h3>Tables:</h3>
@@ -19,15 +19,15 @@ npm start
 <h2>Associations:</h2>
 <h4>One to Many:</h4>
 <p>SCREENING - MOVIE</p>
-<p>SCREENING - ROOM</p><
+<p>SCREENING - ROOM</p>
 <p>USER - TICKET</p>
 <p>SCREENING - TICKET</p>
 <br />
 <h4>Many to Many:</h4>
 <p>USER - SCREENING</p>
 <br />
-<h4>ONE to ONE:</h4><br />
-<p>USER - CLIENTCARD</p><br />
+<h4>ONE to ONE:</h4>
+<p>USER - CLIENTCARD</p>
 <br />
 <br />
 <h2>Routes:</h2>
