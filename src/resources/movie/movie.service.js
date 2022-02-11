@@ -18,7 +18,7 @@ class MovieService {
       });
       
       if (movie.length > 0) {
-        return 'Movie already exists!';
+        throw new Error('Movie already exists!');
       } else {
 
         const newMovie = await MovieModel.create({ 

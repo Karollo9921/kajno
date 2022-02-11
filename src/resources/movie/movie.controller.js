@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const MovieService = require("./movie.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
 /**
 * @author  Karol Kluba
 * @module  MovieController
@@ -32,7 +34,11 @@ class MovieController {
     )
   };
 
-  async createMovie(req, res) {
+  async createMovie(
+    req, 
+    res, 
+    next
+  ) {
     try {
       const { title, yearOfRelease } = req.body;
       const response = await MovieService.createMovie(
@@ -43,7 +49,7 @@ class MovieController {
       res.status(201).json({ response });
 
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, 'Cannot create a Movie'));
     }
   }
 

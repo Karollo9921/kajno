@@ -18,7 +18,7 @@ class UserService {
       });
 
       if (user.length > 0) {
-        return 'User already exists!';
+        throw new Error('User already exists!');
       } else {
         const newUser = await UserModel.create({ 
           login: login, 
@@ -35,7 +35,7 @@ class UserService {
       }
 
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 
@@ -51,17 +51,17 @@ class UserService {
       });
 
       if (user.length === 0) {
-        return 'Unable to find user with that login';
+        throw new Error('Unable to find user with that login');
       };
       
       let isPasswordCorrect = await bcrypt.compare(password, user[0].password)
       if (isPasswordCorrect) {
         return 'LoggedIn!';
       } else {
-        return 'Password incorrect !';
+        throw new Error('Password incorrect !');
       };
     } catch (error) {
-      return error;
+      throw new Error(error.message);
     }
   }
 
@@ -71,7 +71,7 @@ class UserService {
         attributes: ['login']
       });
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 };

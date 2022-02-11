@@ -22,7 +22,7 @@ class TicketService {
       });
 
       if (screening.length === 0) {
-        return 'You are trying to provide a ticket for not existing screening!'
+        throw new Error('You are trying to provide a ticket for not existing screening!')
       };
         
       const newTicket = await TicketModel.create({ 
@@ -51,7 +51,7 @@ class TicketService {
   ) {
     try {
       if (!login) {
-        return 'You are not logged in!'
+        throw new Error('You are not logged in!')
       };
 
       let ticket = await TicketModel.findOne({ where: { id: idTicket } });
@@ -70,7 +70,7 @@ class TicketService {
           };
         });
       } else {
-        return 'This place is not avaliable!'
+        throw new Error('This place is not avaliable!')
       }
 
       await ScreeningModel.update({ places: places }, {
@@ -123,7 +123,7 @@ class TicketService {
           }
         });
       } else {
-        return 'That screening does not exists!'
+        throw new Error('That screening does not exists!')
       }
     } catch (error) {
       return error

@@ -12,11 +12,11 @@ class RoomService {
     try {
 
       if (numOfRows > 16 || numOfRows < 10) {
-        return 'Number of rows should be between 10 and 16'
+        throw new Error('Number of rows should be between 10 and 16');
       };
 
       if (numOfColumns > 25 || numOfColumns < 15) {
-        return 'Number of columns should be between 15 and 24'
+        throw new Error('Number of columns should be between 15 and 24');
       };
 
       const room = await RoomModel.findAll({
@@ -26,7 +26,7 @@ class RoomService {
       });
       
       if (room.length > 0) {
-        return 'Room already exists!';
+        throw new Error('Room already exists!');
       } else {
 
         let rows = [

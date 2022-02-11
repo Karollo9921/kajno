@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const ClientCardService = require("./clientcard.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
 /**
 * @author  Karol Kluba
 * @module  ClientCardController
@@ -32,14 +34,18 @@ class ClientCardController {
   * @function  makeACard
   * @info    we create a new card for user 
   */
-  async makeACard(req, res) {
+  async makeACard(
+    req, 
+    res, 
+    next
+  ) {
     try {
       const login = req.session.user;
       const response = await ClientCardService.makeACard(login);
-      res.status(201).json({ response });
 
+      res.status(201).json({ response });
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, 'Cannot make a Card'));
     }
   }
 
@@ -48,14 +54,18 @@ class ClientCardController {
   * @function  getCard
   * @info    we display User's card 
   */
-  async getCard(req, res) {
+  async getCard(
+    req, 
+    res, 
+    next
+  ) {
     try {
       const loggedUserLogin = req.session.user;
       const userId = req.params.id
       const card = await ClientCardService.getClientCard(userId, loggedUserLogin);
       return res.status(200).json({ card });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      return next(new HttpException(404, error));
     }
   }
 };

@@ -25,7 +25,7 @@ class ScreeningService {
       });
 
       if (movie.length === 0) {
-        return 'Provided Movie does not exists!'
+        throw new Error('Provided Movie does not exists!')
       };
 
       const room = await RoomModel.findAll({
@@ -35,7 +35,7 @@ class ScreeningService {
       });
 
       if (room.length === 0) {
-        return 'Provided Room does not exists!'
+        throw new Error('Provided Room does not exists!')
       };
 
       let places = room[0].getDataValue('places')

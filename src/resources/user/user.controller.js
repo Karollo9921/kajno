@@ -1,6 +1,9 @@
 const { Router } = require("express");
 const UserService = require("./user.service");
 
+const HttpException = require("../../utils/exceptions/exceptions");
+
+
 // validation
 const validate = require("./user.validation");
 const validationMiddleware = require("../../middlewares/validation.middleware");
@@ -38,7 +41,11 @@ class UserController {
     )
   };
 
-  async register(req, res) {
+  async register(
+    req, 
+    res, 
+    next
+  ) {
     try {
       const { login, password } = req.body;
       const response = await UserService.register(
@@ -49,11 +56,15 @@ class UserController {
       res.status(201).json({ response });
 
     } catch (error) {
-      res.status(400).json({ error });
+      next(new HttpException(400, error.message));
     }
   }
 
-  async login(req, res) {
+  async login(
+    req, 
+    res,
+    next
+  ) {
     try {
       const { login, password } = req.body;
 
@@ -68,7 +79,7 @@ class UserController {
       return res.status(200).json({ response });
 
     } catch (error) {
-      return res.status(400).json({ error });
+      next(new HttpException(400, error.message));
     }
   };
 
@@ -77,7 +88,7 @@ class UserController {
       const users = await UserService.getUsers();
       return res.status(200).json({ users });
     } catch (error) {
-      return res.status(400).json({ error: error });
+      return next(new HttpException(404, error.message));
     }
   }
 };
