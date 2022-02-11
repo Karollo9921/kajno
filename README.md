@@ -2,7 +2,7 @@
 
 <h3>How to start</h3><br />
 clone repository<br />
-npm install
+npm install<br />
 npm start
 
 <h5>Install in VSC REST Client extension and test API by request.rest file</h5>
