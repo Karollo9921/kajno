@@ -87,26 +87,32 @@ class ScreeningService {
 
     try {
 
+      let screening = await ScreeningModel.findOne({
+        where: {
+          id: idScreening
+        }
+      });
+
       await ScreeningModel.update({ alreadyStarted: true }, {
         where: {
           id: idScreening
         }
       });
   
-      // let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
-      //   where: {
-      //     [Op.and]: [
-      //       { movie_id: idMovie }, 
-      //       { alreadyStarted: false }
-      //     ]
-      //   }
-      // });
-        
-      // await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {
-      //   where: {
-      //     id: idMovie
-      //   }
-      // });
+      let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
+        where: {
+          [Op.and]: [
+            { movie_id: await screening.getDataValue('movie_id') }, 
+            { alreadyStarted: false }
+          ]
+        }
+      });
+
+      await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {
+        where: {
+          id: await screening.getDataValue('movie_id')
+        }
+      });
   
       return { 
         message: 'Changed to Started!'
