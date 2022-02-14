@@ -2,7 +2,23 @@ const { Sequelize, Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
 
-  class Screening extends Model {}
+  class Screening extends Model {
+    static associate(models) {
+      this.belongsTo(models.movies, {
+        foreignKey: 'movie_id'
+      });
+      this.belongsTo(models.rooms, {
+        foreignKey: 'room_id'
+      });
+      this.hasMany(models.tickets, {
+        foreignKey: 'screening_id',
+        onDelete: 'CASCADE'
+      });
+      this.belongsToMany(models.users, {
+        through: 'UserScreening'
+      });
+    };
+  };
 
   Screening.init({
     id: {

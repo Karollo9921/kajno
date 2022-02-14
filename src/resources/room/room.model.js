@@ -1,7 +1,14 @@
 const { Sequelize, Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Room extends Model {}
+  class Room extends Model {
+    static associate(models) {
+      this.hasMany(models.screenings, {
+        foreignKey: 'movie_id',
+        onDelete: 'RESTRICT'
+      });
+    };
+  };
 
   Room.init({
     id: {

@@ -2,7 +2,21 @@ const { Sequelize, Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  class User extends Model {
+    static associate(models) {
+      this.hasMany(models.tickets, {
+        foreignKey: 'user_id',
+        onDelete: 'RESTRICT'
+      });
+      this.belongsToMany(models.screenings, { 
+        through: 'UserScreening' 
+      });
+      this.hasOne(models.clientcards, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+    };
+  };
 
   User.init({
     id: {

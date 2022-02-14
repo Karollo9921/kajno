@@ -5,7 +5,6 @@ function validationMiddleware(data) {
     res,
     next
   ) => {
-
     const validatinOptions = {
       abortEarly: false,
       allowUnknown: true,
@@ -13,23 +12,20 @@ function validationMiddleware(data) {
     };
 
     try {
-
       const value = await data.validateAsync(
         req.body,
         validatinOptions
       );
+
       req.body = value;
       next();
-
     } catch (error) {
-
       const errors = [];
       error.details.forEach((e) => {
         errors.push(e.message);
       });
 
       res.status(400).send({ errors: errors });
-
     }
   }
 };

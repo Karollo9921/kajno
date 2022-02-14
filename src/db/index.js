@@ -1,6 +1,9 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const config = require("config");
 
+const fs = require('fs');
+const path = require('path');
+
 const sequelize = new Sequelize(
   config.get("dbConfig.database"),
   config.get("dbConfig.username"),
@@ -10,25 +13,23 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('connected..')
-  })
-  .catch(err => {
-    console.log('Error'+ err)
-  })
 
 const db = {};
 
-db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-db.users = require("../resources/user/user.model")(sequelize, DataTypes);
-db.movies = require("../resources/movie/movie.model")(sequelize, DataTypes);
-db.screenings = require("../resources/screening/screening.model")(sequelize, DataTypes);
-db.tickets = require("../resources/ticket/ticket.model")(sequelize, DataTypes);
-db.rooms = require("../resources/room/room.model")(sequelize, DataTypes);
-db.clientcards = require("../resources/clientcard/clientcard.model")(sequelize, DataTypes);
+let folders = fs.readdirSync(path.join(__dirname, '/../resources'));
+folders.forEach((folder) => {
+  fs.readdirSync(path.join(__dirname, `/../resources/${folder}`))
+    .filter((file) => {
+      return file.slice(-8) === "model.js";
+    })
+    .forEach((file) => {
+      const model = require(path.join(__dirname, `/../resources/${folder}`, file))(sequelize, DataTypes);
+      db[model.tableName.toLowerCase()] = model;
+    });
+});
 
 db.sequelize.sync({ force: true })
   .then(() => {
@@ -38,78 +39,10 @@ db.sequelize.sync({ force: true })
     console.log(`Error: ${error}`);
   })
 
-
-// %%%%%%%%%%%%%%%%%%%%%%%%
-// ONE to MANY Associations
-// %%%%%%%%%%%%%%%%%%%%%%%%
-
-// MOVIE - SCREENING RELATION
-db.movies.hasMany(db.screenings, {
-  foreignKey: 'movie_id',
-  onDelete: 'CASCADE'
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
 });
 
-db.screenings.belongsTo(db.movies, {
-  foreignKey: 'movie_id'
-});
-
-// ROOM - SCREENING RELATION
-db.rooms.hasMany(db.screenings, {
-  foreignKey: 'room_id',
-  onDelete: 'CASCADE'
-});
-
-db.screenings.belongsTo(db.rooms, {
-  foreignKey: 'room_id'
-});
-
-// USER - TICKET RELATION
-db.users.hasMany(db.tickets, {
-  foreignKey: 'user_id',
-  onDelete: 'CASCADE'
-});
-
-db.tickets.belongsTo(db.users, {
-  foreignKey: 'user_id'
-});
-
-// TICKET - SCREENING RELATION
-db.screenings.hasMany(db.tickets, {
-  foreignKey: 'screening_id',
-  onDelete: 'CASCADE'
-});
-
-db.tickets.belongsTo(db.screenings, {
-  foreignKey: 'screening_id'
-});
-
-
-// %%%%%%%%%%%%%%%%%%%%%%%%%
-// MANY to MANY Associations
-// %%%%%%%%%%%%%%%%%%%%%%%%%
-
-// USER - SCREENING RELATION
-db.users.belongsToMany(db.screenings, { through: 'UserScreening' });
-db.screenings.belongsToMany(db.users, { through: 'UserScreening' });
-
-
-// %%%%%%%%%%%%%%%%%%%%%%%
-// ONE to ONE Associations
-// %%%%%%%%%%%%%%%%%%%%%%%
-
-// USER - CLIENTCARD RELATION
-db.users.hasOne(db.clientcards, {
-  foreignKey: 'user_id',
-  onDelete: 'CASCADE'
-});
-
-db.clientcards.belongsTo(db.users, {
-  foreignKey: 'card_id',
-  onDelete: 'CASCADE'
-});
-
-
-// %%%%%%%%%%%%%%%%%%
-// EXPORT DB VARIABLE
-// %%%%%%%%%%%%%%%%%%
 module.exports = db;

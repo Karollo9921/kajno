@@ -1,7 +1,14 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Movie extends Model {}
+  class Movie extends Model {
+    static associate(models) {
+      this.hasMany(models.screenings, {
+        foreignKey: 'movie_id',
+        onDelete: 'CASCADE'
+      });
+    };
+  };
 
   Movie.init({
     id: {
