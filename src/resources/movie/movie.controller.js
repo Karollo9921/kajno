@@ -33,7 +33,11 @@ class MovieController {
       this.getMovie
     )
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   CREATE Movie
+  */
   async createMovie(
     req, 
     res, 
@@ -46,12 +50,16 @@ class MovieController {
         yearOfRelease
       );
 
-      res.status(201).json({ response });
+      return res.status(201).json({ response });
     } catch (error) {
       next(new HttpException(400, 'Cannot create a Movie'));
     }
-  }
-
+  };
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Movies
+  */
   async getMovies(
     req, 
     res,
@@ -60,12 +68,16 @@ class MovieController {
     try {
       const movies = await MovieService.getMovies();
 
-      res.status(200).json({ movies });
+      return res.status(200).json({ movies });
     } catch (error) {
       next(new HttpException(404, error.message));
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Movie
+  */
   async getMovie(
     req, 
     res,
@@ -75,7 +87,7 @@ class MovieController {
       const id = req.params.id;
       const movie = await MovieService.getMovies(id);
 
-      res.status(200).json({ movie });
+      return res.status(200).json({ movie });
     } catch (error) {
       next(new HttpException(404, error.message));
     }

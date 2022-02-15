@@ -33,7 +33,11 @@ class TicketController {
       this.getTickets
     );
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   Create Ticket for Screening
+  */
   async createTicket(
     req, 
     res,
@@ -47,12 +51,16 @@ class TicketController {
         idScreening      
       );
 
-      res.status(201).json({ response });
+      return res.status(201).json({ response });
     } catch (error) {
       next(new HttpException(400, error.message));
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   Buy a Ticket
+  */
   async buyATicket(
     req, 
     res,
@@ -64,18 +72,22 @@ class TicketController {
 
       const response = await TicketService.buyATicket(idTicket, login);
 
-      res.status(200).json({ response });
+      return res.status(200).json({ response });
     } catch (error) {
       next(new HttpException(403, error.message));
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Tickets for Screening
+  */
   async getTickets(req, res) {
     try {
       let screeningId = req.params.id;
       let tickets = await TicketService.getTickets(screeningId);
 
-      res.status(200).json({ tickets });
+      return res.status(200).json({ tickets });
     } catch (error) {
       next(new HttpException(404, error.message));
     }

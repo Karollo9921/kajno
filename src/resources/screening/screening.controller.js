@@ -34,7 +34,11 @@ class ScreeningController {
     );
 
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   CREATE Screening
+  */
   async createScreening(
     req, 
     res,
@@ -49,12 +53,16 @@ class ScreeningController {
         idRoom
       );
 
-      res.status(201).json({ response });
+      return res.status(201).json({ response });
     } catch (error) {
       next(new HttpException(400, error.message));
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Screenings
+  */
   async getScreenings(
     req, 
     res,
@@ -63,12 +71,16 @@ class ScreeningController {
     try {
       const screenings = await ScreeningService.getScreenings();
 
-      res.status(200).json({ screenings });
+      return res.status(200).json({ screenings });
     } catch (error) {
       next(new HttpException(404, error.message));
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   PATCH Screenings's 'alreadyStarted' fieeld to true
+  */
   async setToAlreadyStarted(
     req, 
     res,
@@ -78,7 +90,7 @@ class ScreeningController {
       let idScreening = req.params.id;
       let response = await ScreeningService.setToAlreadyStarted(idScreening);
 
-      res.status(200).json({ response });
+      return res.status(200).json({ response });
     } catch (error) {
       next(new HttpException(403, error.message));
     }

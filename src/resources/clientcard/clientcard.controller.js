@@ -28,11 +28,10 @@ class ClientCardController {
       this.getCard
     )
   };
-
   /**
-  * @author  Karol Kluba
-  * @function  makeACard
-  * @info    we create a new card for user 
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   CREATE Card for User
   */
   async makeACard(
     req, 
@@ -43,16 +42,16 @@ class ClientCardController {
       const login = req.session.user;
       const response = await ClientCardService.makeACard(login);
 
-      res.status(201).json({ response });
+      return res.status(201).json({ response });
     } catch (error) {
       next(new HttpException(400, 'Cannot make a Card'));
     }
   }
 
   /**
-  * @author  Karol Kluba
-  * @function  getCard
-  * @info    we display User's card 
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Card for User
   */
   async getCard(
     req, 

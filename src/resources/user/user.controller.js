@@ -19,10 +19,10 @@ class UserController {
   
   constructor(path) {
     this.path = path;
-    this.initialiseRoutes();
+    this.#initialiseRoutes();
   }
 
-  initialiseRoutes() {
+  #initialiseRoutes() {
     this.router.post(
       `${this.path}/register`,
       validationMiddleware(validate.register),
@@ -40,7 +40,11 @@ class UserController {
       this.getUsers
     )
   };
-
+  /**
+   * @author        Karol Kluba
+   * @returns       Promise
+   * @description   Create new User
+   */
   async register(
     req, 
     res, 
@@ -53,12 +57,17 @@ class UserController {
         password
       );
 
-      res.status(201).json({ response });
+      return res.status(201).json({ response });
     } catch (error) {
       next(new HttpException(400, error.message));
     }
   }
 
+  /**
+   * @author        Karol Kluba
+   * @returns       Promise
+   * @description   Login User
+   */
   async login(
     req, 
     res,
@@ -76,6 +85,11 @@ class UserController {
     }
   };
 
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise
+  * @description   GET User's Logins
+  */ 
   async getUsers(
     req, 
     res,

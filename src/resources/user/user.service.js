@@ -5,14 +5,18 @@ const db = require("../../db/index");
 const UserModel = db.users;
 
 class UserService {
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<UserModel>
+  * @description   Create User handler - DRY
+  */
   static async #registerHandler(
     { login, password }, 
     t
   ) {
     try {
+      // checking if User exists
       const user = await UserModel.findAll({ where: { login: login } });
-
       if (user.length > 0) {
         throw new Error('User already exists!');
       } else {
@@ -26,7 +30,11 @@ class UserService {
       throw new Error(error.message);
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   Create User
+  */
   static async register(
     login,
     password
@@ -38,6 +46,11 @@ class UserService {
     });
   };
 
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   Login User
+  */
   static async login(
     login,
     password
@@ -53,6 +66,7 @@ class UserService {
         throw new Error('Unable to find user with that login');
       };
       
+      // checking if password is valid
       let isPasswordCorrect = await bcrypt.compare(password, user[0].password)
       if (isPasswordCorrect) {
         return 'LoggedIn!';
@@ -63,7 +77,11 @@ class UserService {
       throw new Error(error.message);
     }
   }
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<UserModel.login[]>
+  * @description   GET Users Logins
+  */
   static async getUsers() {
     try {
       return await UserModel.findAll({

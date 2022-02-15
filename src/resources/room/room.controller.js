@@ -28,7 +28,11 @@ class RoomController {
       this.getRooms
     )
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   CREATE Room
+  */
   async createRoom(
     req, 
     res,
@@ -48,7 +52,11 @@ class RoomController {
       next(new HttpException(400, error.message));
     }
   }
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<>
+  * @description   GET Rooms
+  */
   async getRooms(
     req, 
     res,

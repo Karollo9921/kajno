@@ -9,7 +9,11 @@ TicketModel.ScreeningModel = TicketModel.belongsTo(ScreeningModel, { foreignKey:
 TicketModel.UserModel = TicketModel.belongsTo(UserModel, { foreignKey: 'user_id' });
 
 class TicketService {
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<TicketModel>
+  * @description   Create Ticket handler - DRY
+  */
   static async createTicketHandler(
     {
       price,
@@ -45,7 +49,11 @@ class TicketService {
       throw new Error(error.message);
     }
   }
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   Create Ticket
+  */
   static async createTicket(
     price,
     place,
@@ -64,7 +72,11 @@ class TicketService {
       };
     });
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<TicketModel>
+  * @description   Buy a Ticket Handler
+  */
   static async buyATicketHandler(
     {
       idTicket, 
@@ -96,6 +108,7 @@ class TicketService {
         throw new Error('This place is not avaliable!')
       }
 
+      // updating avaliability of places in Screening
       await ScreeningModel.update({ places: places }, {
         where: {
           id: idScreening
@@ -108,6 +121,7 @@ class TicketService {
         }
       });
 
+      // setting User's id (whick is an Owner) in TicketModel
       await TicketModel.update({ user_id: user[0].getDataValue('id') }, {
         where: {
           id: parseInt(idTicket)
@@ -116,6 +130,7 @@ class TicketService {
 
       ticket = await TicketModel.findOne({ where: { id: idTicket } });
 
+      // pushing TicketModel to UserModel
       let userBoughtTickets = await JSON.parse(user[0].getDataValue('boughtTickets'));
       userBoughtTickets.push(ticket);
 
@@ -131,7 +146,11 @@ class TicketService {
       throw new Error(error.message);
     }
   }
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   Buy a Ticket
+  */
   static async buyATicket(
     idTicket, 
     login  
@@ -148,7 +167,11 @@ class TicketService {
       };
     });
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<TicketModel[]>
+  * @description   GET Tickets for Screening
+  */
   static async getTickets(idScreening) {
     try {
       let screening = await ScreeningModel.findOne({ where: { id: idScreening } });

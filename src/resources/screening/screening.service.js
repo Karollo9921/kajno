@@ -10,7 +10,11 @@ ScreeningModel.MovieModel = ScreeningModel.belongsTo(MovieModel, { foreignKey: '
 ScreeningModel.RoomModel = ScreeningModel.belongsTo(RoomModel, { foreignKey: 'room_id' });
 
 class ScreeningService {
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<ScreeningModel>
+  * @description   create screening Handler - DRY
+  */
   static async createScreeningHandle(
     { 
       date,
@@ -21,6 +25,7 @@ class ScreeningService {
     t
   ) {
     try {
+      // checking if the Movie for which we Creating Screening exists
       const movie = await MovieModel.findAll({
         where: {
           id: parseInt(idMovie)
@@ -31,6 +36,7 @@ class ScreeningService {
         throw new Error('Provided Movie does not exists!')
       };
 
+      // checking if the Room for which we Creating Screening exists
       const room = await RoomModel.findAll({
         where: {
           id: parseInt(idRoom)
@@ -53,8 +59,8 @@ class ScreeningService {
         dateOfScreening: date, 
         alreadyStarted: alreadyStarted,
         places: places,
-        movie_id: movie[0].getDataValue('id'),
-        room_id: room[0].getDataValue('id')
+        movie_id: idMovie,
+        room_id: idRoom
       }, {
         include: [ MovieModel, RoomModel ], 
         transacion: t
@@ -62,6 +68,7 @@ class ScreeningService {
 
       await newScreening.save();
 
+      // checking the closest date of Screening for the Movie
       let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
         where: {
           [Op.and]: [
@@ -71,6 +78,7 @@ class ScreeningService {
         }
       });
 
+      // updating closest screening date for Movie 
       await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {
         where: {
           id: idMovie
@@ -82,7 +90,11 @@ class ScreeningService {
       throw new Error(error.message);
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   Create Screening
+  */
   static async createScreening(
     date,
     alreadyStarted,
@@ -100,7 +112,11 @@ class ScreeningService {
       return { message: 'Created!', user: screeningData };
     });
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   UPDATE Screening's 'alreadyStarted' field to true - Handler - DRY
+  */
   static async setToAlreadyStartedHandle(
     { idScreening },
     t
@@ -118,6 +134,7 @@ class ScreeningService {
         }
       }, { transaction: t });
   
+      // checking the closest date of Screening for the Movie
       let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
         where: {
           [Op.and]: [
@@ -127,6 +144,7 @@ class ScreeningService {
         }
       });
 
+      // updating closest screening date for Movie 
       await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {
         where: {
           id: await screening.getDataValue('movie_id')
@@ -140,7 +158,11 @@ class ScreeningService {
       throw new Error(error.message);
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   UPDATE Screening's 'alreadyStarted' to true
+  */
   static async setToAlreadyStarted(idScreening) {
     return await sequelize.transaction(async (t) => {
       const message = await this.setToAlreadyStartedHandle({ idScreening }, t);
@@ -148,7 +170,11 @@ class ScreeningService {
       return message;
     });
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<ScreeningModel[]>
+  * @description   GET all Screenings
+  */
   static async getScreenings() {
     try {
       return await ScreeningModel.findAll();

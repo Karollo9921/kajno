@@ -5,7 +5,11 @@ const { Op } = require("sequelize");
 const MovieModel = db.movies;
 
 class MovieService {
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<MovieModel>
+  * @description   CREATE Movie - Handler - DRY
+  */
   static async createMovieHandler(
     {
       title,
@@ -20,6 +24,7 @@ class MovieService {
         }
       });
       
+      // checking if the Movie which we try to CREATE already exists, if yes, we throw an error, in other case we CREATE
       if (movie.length > 0) {
         throw new Error('Movie already exists!');
       } else {
@@ -38,7 +43,11 @@ class MovieService {
       throw new Error(error.message);
     }
   }
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   CREATE Movie
+  */
   static async createMovie(
     title,
     yearOfRelease
@@ -55,22 +64,30 @@ class MovieService {
       };
     });
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<MovieModel[]>
+  * @description   GET Movies
+  */
   static async getMovies() {
     try {
       return await MovieModel.findAll();
     } catch (error) {
       throw new Error(error.message);
-    }
-  }
-
+    };
+  };
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<MovieModel>
+  * @description   GET Movie
+  */
   static async getMovie(idMovie) {
     try {
       return await MovieModel.findOne({ where: { id: idMovie } });
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
 };
 
 module.exports = MovieService;

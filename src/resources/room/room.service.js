@@ -4,7 +4,11 @@ const { sequelize } = require("../../db/index");
 const RoomModel = db.rooms;
 
 class RoomService {
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<RoomModel>
+  * @description   CREATE Room Handler - DRY
+  */
   static async createRoomHandler(
     {
       name,
@@ -29,6 +33,7 @@ class RoomService {
         }
       });
       
+      // checking if the provided Room already exists, if yes, we throw an error
       if (room.length > 0) {
         throw new Error('Room already exists!');
       } else {
@@ -61,7 +66,11 @@ class RoomService {
       throw new Error(error.message);
     }
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<string>
+  * @description   CREATE Room
+  */
   static async createRoom(
     name,
     numOfRows,
@@ -82,7 +91,11 @@ class RoomService {
       };
     })
   };
-
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<RoomModel[]>
+  * @description   GET all Rooms
+  */
   static async getRooms() {
     try {
       return await RoomModel.findAll();
