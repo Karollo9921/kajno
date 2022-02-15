@@ -1,4 +1,4 @@
-const { Sequelize, Model } = require("sequelize");
+const { Sequelize, Model, Op } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
 
@@ -16,6 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsToMany(models.users, {
         through: 'UserScreening'
+      });
+    };
+
+    static async getMinimumDateOfScreening(idMovie) {
+      return await this.min('dateOfScreening', {
+        where: {
+          [Op.and]: [
+            { movie_id: idMovie }, 
+            { alreadyStarted: false }
+          ]
+        }
       });
     };
   };
@@ -42,6 +53,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Screening',
+    defaultScope: {
+      where: {
+        alreadyStarted: false
+      }
+    }
   });
 
   return Screening;

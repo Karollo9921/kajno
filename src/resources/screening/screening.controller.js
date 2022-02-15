@@ -36,7 +36,7 @@ class ScreeningController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   CREATE Screening
   */
   async createScreening(
@@ -60,7 +60,7 @@ class ScreeningController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Screenings
   */
   async getScreenings(
@@ -78,7 +78,7 @@ class ScreeningController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   PATCH Screenings's 'alreadyStarted' fieeld to true
   */
   async setToAlreadyStarted(

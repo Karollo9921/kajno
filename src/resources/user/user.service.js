@@ -90,7 +90,7 @@ class UserService {
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
 };
 
 module.exports = UserService;

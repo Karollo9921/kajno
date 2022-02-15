@@ -30,7 +30,7 @@ class ClientCardController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   CREATE Card for User
   */
   async makeACard(
@@ -50,7 +50,7 @@ class ClientCardController {
 
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Card for User
   */
   async getCard(

@@ -69,14 +69,7 @@ class ScreeningService {
       await newScreening.save();
 
       // checking the closest date of Screening for the Movie
-      let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
-        where: {
-          [Op.and]: [
-            { movie_id: idMovie }, 
-            { alreadyStarted: false }
-          ]
-        }
-      });
+      let minDateOfScreening = await ScreeningModel.getMinimumDateOfScreening(idMovie);
 
       // updating closest screening date for Movie 
       await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {
@@ -135,14 +128,7 @@ class ScreeningService {
       }, { transaction: t });
   
       // checking the closest date of Screening for the Movie
-      let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
-        where: {
-          [Op.and]: [
-            { movie_id: await screening.getDataValue('movie_id') }, 
-            { alreadyStarted: false }
-          ]
-        }
-      });
+      let minDateOfScreening = await ScreeningModel.getMinimumDateOfScreening(idMovie);
 
       // updating closest screening date for Movie 
       await MovieModel.update({ theClosestDateOfTheScreening: minDateOfScreening }, {

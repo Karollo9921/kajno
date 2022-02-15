@@ -115,7 +115,7 @@ class TicketService {
         }
       }, { transaction: t });
 
-      const user =  await UserModel.findAll({
+      const user = await UserModel.findAll({
         where: {
           login: login
         }

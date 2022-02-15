@@ -42,7 +42,7 @@ class UserController {
   };
   /**
    * @author        Karol Kluba
-   * @returns       Promise
+   * @returns       Promise<Response>
    * @description   Create new User
    */
   async register(
@@ -65,7 +65,7 @@ class UserController {
 
   /**
    * @author        Karol Kluba
-   * @returns       Promise
+   * @returns       Promise<Response>
    * @description   Login User
    */
   async login(
@@ -87,7 +87,7 @@ class UserController {
 
   /**
   * @author        Karol Kluba
-  * @returns       Promise
+  * @returns       Promise<Response>
   * @description   GET User's Logins
   */ 
   async getUsers(

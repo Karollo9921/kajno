@@ -30,7 +30,7 @@ class RoomController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   CREATE Room
   */
   async createRoom(
@@ -54,7 +54,7 @@ class RoomController {
   }
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Rooms
   */
   async getRooms(

@@ -35,7 +35,7 @@ class TicketController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   Create Ticket for Screening
   */
   async createTicket(
@@ -58,7 +58,7 @@ class TicketController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   Buy a Ticket
   */
   async buyATicket(
@@ -79,7 +79,7 @@ class TicketController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Tickets for Screening
   */
   async getTickets(req, res) {

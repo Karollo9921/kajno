@@ -35,7 +35,7 @@ class MovieController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   CREATE Movie
   */
   async createMovie(
@@ -57,7 +57,7 @@ class MovieController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Movies
   */
   async getMovies(
@@ -75,7 +75,7 @@ class MovieController {
   };
   /**
   * @author        Karol Kluba
-  * @returns       Promise<>
+  * @returns       Promise<Response>
   * @description   GET Movie
   */
   async getMovie(
