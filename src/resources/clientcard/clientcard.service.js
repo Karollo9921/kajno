@@ -1,11 +1,14 @@
 const db = require("../../db/index");
+const { sequelize } = require("../../db/index");
+
 const ClientCardModel = db.clientcards;
 const UserModel = db.users;
 
 class ClientCardService {
 
-  static async makeACard(
-    login
+  static async makeACardHandler(
+    { login },
+    t
   ) {
     try {
       if (!login) {
@@ -20,18 +23,28 @@ class ClientCardService {
       } else {
         const newClientCard = await ClientCardModel.create({ 
           user_id: await user.getDataValue('id')
-        });
+        }, { transaction: t });
   
         await newClientCard.save();
   
-        return {
-          message: 'created!',
-          card: newClientCard
-        }
+        return newClientCard;
       }
     } catch (error) {
       throw new Error(error.message);
     }
+  };
+
+  static async makeACard(
+    login
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const newClientCard = await this.makeACardHandler({ login }, t);
+
+      return {
+        message: 'created!',
+        card: newClientCard
+      };
+    });
   }
 
   static async getClientCard(

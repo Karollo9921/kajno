@@ -1,5 +1,6 @@
 const db = require("../../db/index");
 const { Op } = require("sequelize");
+const { sequelize } = require("../../db/index");
 
 const ScreeningModel = db.screenings;
 const MovieModel = db.movies;
@@ -10,14 +11,16 @@ ScreeningModel.RoomModel = ScreeningModel.belongsTo(RoomModel, { foreignKey: 'ro
 
 class ScreeningService {
 
-  static async createScreening(
-    date,
-    alreadyStarted,
-    idMovie,
-    idRoom
+  static async createScreeningHandle(
+    { 
+      date,
+      alreadyStarted,
+      idMovie,
+      idRoom
+    },
+    t
   ) {
     try {
-
       const movie = await MovieModel.findAll({
         where: {
           id: parseInt(idMovie)
@@ -53,7 +56,8 @@ class ScreeningService {
         movie_id: movie[0].getDataValue('id'),
         room_id: room[0].getDataValue('id')
       }, {
-        include: [ MovieModel, RoomModel ]
+        include: [ MovieModel, RoomModel ], 
+        transacion: t
       });
 
       await newScreening.save();
@@ -71,22 +75,37 @@ class ScreeningService {
         where: {
           id: idMovie
         }
-      });
+      }, { transacion: t });
 
-      return { 
-        message: 'Created!',
-        screening: newScreening
-      }
-      
+      return newScreening;
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
 
-  static async setToAlreadyStarted(idScreening) {
+  static async createScreening(
+    date,
+    alreadyStarted,
+    idMovie,
+    idRoom
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const screeningData = await this.createScreeningHandle({ 
+        date,
+        alreadyStarted,
+        idMovie,
+        idRoom
+      }, t)
 
+      return { message: 'Created!', user: screeningData };
+    });
+  };
+
+  static async setToAlreadyStartedHandle(
+    { idScreening },
+    t
+  ) {
     try {
-
       let screening = await ScreeningModel.findOne({
         where: {
           id: idScreening
@@ -97,7 +116,7 @@ class ScreeningService {
         where: {
           id: idScreening
         }
-      });
+      }, { transaction: t });
   
       let minDateOfScreening = await ScreeningModel.min('dateOfScreening', {
         where: {
@@ -112,16 +131,23 @@ class ScreeningService {
         where: {
           id: await screening.getDataValue('movie_id')
         }
-      });
+      }, { transaction: t });
   
       return { 
         message: 'Changed to Started!'
       };
-
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
+
+  static async setToAlreadyStarted(idScreening) {
+    return await sequelize.transaction(async (t) => {
+      const message = await this.setToAlreadyStartedHandle({ idScreening }, t);
+
+      return message;
+    });
+  };
 
   static async getScreenings() {
     try {

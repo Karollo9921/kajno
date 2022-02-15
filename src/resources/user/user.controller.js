@@ -66,17 +66,11 @@ class UserController {
   ) {
     try {
       const { login, password } = req.body;
-
-      const response = await UserService.login(
-        login,
-        password
-      );
+      const response = await UserService.login(login, password);
 
       req.session.user = login;
-      console.log(req.session.user);
 
       return res.status(200).json({ response });
-
     } catch (error) {
       next(new HttpException(400, error.message));
     }

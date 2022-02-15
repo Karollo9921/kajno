@@ -1,16 +1,20 @@
 const db = require("../../db/index");
+const { sequelize } = require("../../db/index");
+
 const RoomModel = db.rooms;
 
 class RoomService {
 
-  static async createRoom(
-    name,
-    numOfRows,
-    numOfColumns,
-    number
+  static async createRoomHandler(
+    {
+      name,
+      numOfRows,
+      numOfColumns,
+      number
+    },
+    t
   ) {
     try {
-
       if (numOfRows > 16 || numOfRows < 10) {
         throw new Error('Number of rows should be between 10 and 16');
       };
@@ -28,7 +32,6 @@ class RoomService {
       if (room.length > 0) {
         throw new Error('Room already exists!');
       } else {
-
         let rows = [
           'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
           'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'
@@ -48,20 +51,37 @@ class RoomService {
           name: name, 
           number: number,
           places: places
-        });
+        }, { transaction: t });
 
         await newRoom.save();
 
-        return { 
-          message: 'Created!',
-          room: newRoom
-        }
+        return newRoom;
       }
-
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
+
+  static async createRoom(
+    name,
+    numOfRows,
+    numOfColumns,
+    number
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const newRoom = await this.createRoomHandler({
+        name,
+        numOfRows,
+        numOfColumns,
+        number
+      }, t);
+
+      return { 
+        message: 'Created!',
+        room: newRoom
+      };
+    })
+  };
 
   static async getRooms() {
     try {

@@ -1,43 +1,42 @@
 const bcrypt = require("bcryptjs");
+const { sequelize } = require('../../db/index');
 
 const db = require("../../db/index");
 const UserModel = db.users;
 
 class UserService {
 
-  static async register(
-    login,
-    password
+  static async #registerHandler(
+    { login, password }, 
+    t
   ) {
     try {
-
-      const user = await UserModel.findAll({
-        where: {
-          login: login
-        }
-      });
+      const user = await UserModel.findAll({ where: { login: login } });
 
       if (user.length > 0) {
         throw new Error('User already exists!');
       } else {
-        const newUser = await UserModel.create({ 
+        return await UserModel.create({ 
           login: login, 
           password: password,
           boughtTickets: []
-        });
-
-        await newUser.save();
-
-        return { 
-          message: 'Created!',
-          user: newUser
-        }
+        }, { transacion: t });
       }
-
     } catch (error) {
       throw new Error(error.message);
     }
-  }
+  };
+
+  static async register(
+    login,
+    password
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const userData = await this.#registerHandler({ login, password }, t);
+
+      return { message: 'Created!', user: userData };
+    });
+  };
 
   static async login(
     login,

@@ -1,4 +1,6 @@
 const db = require("../../db/index");
+const { sequelize } = require("../../db/index");
+
 const TicketModel = db.tickets;
 const ScreeningModel = db.screenings;
 const UserModel = db.users;
@@ -8,13 +10,15 @@ TicketModel.UserModel = TicketModel.belongsTo(UserModel, { foreignKey: 'user_id'
 
 class TicketService {
 
-  static async createTicket(
-    price,
-    place,
-    idScreening
+  static async createTicketHandler(
+    {
+      price,
+      place,
+      idScreening
+    },
+    t
   ) {
     try {
-
       const screening = await ScreeningModel.findAll({
         where: {
           id: parseInt(idScreening)
@@ -30,24 +34,43 @@ class TicketService {
         place: place,
         screening_id: idScreening
       }, {
-        include: [ ScreeningModel, UserModel ]
+        include: [ ScreeningModel, UserModel ],
+        transaction: t
       });
 
       await newTicket.save();
 
-      return { 
-        message: 'Created!',
-        ticket: newTicket
-      }
-      
+      return newTicket;
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  static async createTicket(
+    price,
+    place,
+    idScreening
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const newTicket = await this.createTicketHandler({
+        price,
+        place,
+        idScreening
+      }, t);
+
+      return { 
+        message: 'Created!',
+        ticket: newTicket
+      };
+    });
   };
 
-  static async buyATicket(
-    idTicket, 
-    login  
+  static async buyATicketHandler(
+    {
+      idTicket, 
+      login
+    },
+    t
   ) {
     try {
       if (!login) {
@@ -77,7 +100,7 @@ class TicketService {
         where: {
           id: idScreening
         }
-      });
+      }, { transaction: t });
 
       const user =  await UserModel.findAll({
         where: {
@@ -89,7 +112,7 @@ class TicketService {
         where: {
           id: parseInt(idTicket)
         }
-      });
+      }, { transaction: t });
 
       ticket = await TicketModel.findOne({ where: { id: idTicket } });
 
@@ -100,16 +123,30 @@ class TicketService {
         where: {
           login: login
         }
-      });
+      }, { transaction: t });
 
-      return { 
-        message: 'Bought!',
-        yourTicket: ticket
-      }
+      return ticket;
 
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  static async buyATicket(
+    idTicket, 
+    login  
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const ticket = await this.buyATicketHandler({
+        idTicket,
+        login
+      }, t);
+
+      return { 
+        message: 'Bought!',
+        yourTicket: ticket
+      };
+    });
   };
 
   static async getTickets(idScreening) {

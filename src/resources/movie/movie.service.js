@@ -1,16 +1,19 @@
 const db = require("../../db/index");
+const { sequelize } = require("../../db/index");
 const { Op } = require("sequelize");
 
 const MovieModel = db.movies;
 
 class MovieService {
 
-  static async createMovie(
-    title,
-    yearOfRelease
+  static async createMovieHandler(
+    {
+      title,
+      yearOfRelease
+    },
+    t
   ) {
     try {
-
       const movie = await MovieModel.findAll({
         where: {
           [Op.and]: [{ title: title }, { yearOfRelease: yearOfRelease }]
@@ -25,20 +28,33 @@ class MovieService {
           title: title, 
           theClosestDateOfTheScreening: null,
           yearOfRelease: yearOfRelease
-        });
+        }, { transaction: t });
 
         await newMovie.save();
 
-        return { 
-          message: 'Created!',
-          movie: newMovie
-        }
+        return newMovie;
       }
-
     } catch (error) {
       throw new Error(error.message);
     }
   }
+
+  static async createMovie(
+    title,
+    yearOfRelease
+  ) {
+    return await sequelize.transaction(async (t) => {
+      const newMovie = await this.createMovieHandler({
+        title,
+        yearOfRelease
+      }, t);
+      
+      return { 
+        message: 'Created!',
+        movie: newMovie
+      };
+    });
+  };
 
   static async getMovies() {
     try {
@@ -52,7 +68,7 @@ class MovieService {
     try {
       return await MovieModel.findOne({ where: { id: idMovie } });
     } catch (error) {
-      return error
+      throw new Error(error.message);
     }
   }
 };
