@@ -7,9 +7,9 @@ services:
     depends_on:
       - db
     environment:
-      - PORT=3000
+      - PORT=4000
     ports:
-      - 3000:3000
+      - 4000:4000
     volumes:
       - ./:/app
 
@@ -23,7 +23,7 @@ services:
   phpmyadmin:
     image: phpmyadmin
     ports:
-      - 8081:80
+      - 8080:80
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db

@@ -168,6 +168,14 @@ class ScreeningService {
       throw new Error(error.message);
     }
   }
+
+  static async getScreening(idScreening) {
+    try {
+      return await ScreeningModel.scope({ method: ["getScreeningById", idScreening] }).findAll();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };
 
 module.exports = ScreeningService;

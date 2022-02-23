@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/register
+POST http://localhost:4000/api/register
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/login
+POST http://localhost:4000/api/login
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/rooms/create
+POST http://localhost:4000/api/rooms/create
 Content-Type: application/json
 
 {
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/rooms/create
+POST http://localhost:4000/api/rooms/create
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/movies/create
+POST http://localhost:4000/api/movies/create
 Content-Type: application/json
 
 {
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/screenings/create
+POST http://localhost:4000/api/screenings/create
 Content-Type: application/json
 
 {
@@ -63,7 +63,11 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/screenings/create
+GET http://localhost:4000/api/screenings/1
+
+###
+
+POST http://localhost:4000/api/screenings/create
 Content-Type: application/json
 
 {
@@ -74,11 +78,11 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/api/screenings/started/1
+PATCH http://localhost:4000/api/screenings/started/1
 
 ###
 
-POST http://localhost:3000/api/tickets/create
+POST http://localhost:4000/api/tickets/create
 Content-Type: application/json
 
 {
@@ -89,7 +93,7 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:3000/api/tickets/1/buy
+PATCH http://localhost:4000/api/tickets/1/buy
 Content-Type: application/json
 
 {
@@ -98,7 +102,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/cards/create
+POST http://localhost:4000/api/cards/create
 Content-Type: application/json
 
 {
@@ -109,28 +113,28 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/cards/1
+GET http://localhost:4000/api/cards/1
 
 ###
 
-GET http://localhost:3000/api/cards/2
+GET http://localhost:4000/api/cards/2
 
 ###
 
-GET http://localhost:3000/api/users
+GET http://localhost:4000/api/users
 
 ###
 
-GET http://localhost:3000/api/movies/1
+GET http://localhost:4000/api/movies/1
 
 ###
 
-GET http://localhost:3000/api/tickets/1
+GET http://localhost:4000/api/tickets/1
 
 ###
 
-GET http://localhost:3000/api/tickets/2
+GET http://localhost:4000/api/tickets/2
 
 ###
 
-GET http://localhost:3000/api/screenings
+GET http://localhost:4000/api/screenings

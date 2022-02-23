@@ -27,6 +27,11 @@ class ScreeningController {
       `${this.path}`,
       this.getScreenings
     );
+
+    this.router.get(
+      `${this.path}/:id`,
+      this.getScreeningById
+    );
     
     this.router.patch(
       `${this.path}/started/:id`,
@@ -76,6 +81,27 @@ class ScreeningController {
       next(new HttpException(404, error.message));
     }
   };
+  /**
+  * @author        Karol Kluba
+  * @returns       Promise<Response>
+  * @description   GET Screening By id
+  */
+  async getScreeningById(
+    req,
+    res,
+    next
+  ) {
+    try {
+      const idScreening = req.params.id;
+      console.log(`idScreening: ${idScreening}`)
+      const screening = await ScreeningService.getScreening(idScreening);
+      console.log(`screening: ${screening}`)
+      
+      return res.status(200).json({ screening });
+    } catch (error) {
+      next(new HttpException(404, error.message));
+    }
+  }
   /**
   * @author        Karol Kluba
   * @returns       Promise<Response>

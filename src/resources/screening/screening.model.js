@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class Screening extends Model {
     static associate(models) {
       this.belongsTo(models.movies, {
-        foreignKey: 'movie_id'
+        foreignKey: 'movie_id',
+        
       });
       this.belongsTo(models.rooms, {
         foreignKey: 'room_id'
@@ -50,14 +51,34 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.JSON,
       allowNull: false
     }
-  }, {
+  }, 
+  {
     sequelize,
     modelName: 'Screening',
     defaultScope: {
       where: {
         alreadyStarted: false
       }
-    }
+    },
+    scopes: {
+      getScreeningById(screening_id) {
+        return {
+          attributes: {
+            exclude: ["id", "places"],
+          },
+          where: {
+            id: screening_id,
+          },
+          include: [
+            {
+              association: 'Movie',
+              attributes: ["title", "yearOfRelease"],
+              required: false,
+            },
+          ],
+        };
+      },
+    },
   });
 
   return Screening;

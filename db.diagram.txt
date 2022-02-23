@@ -1,0 +1,138 @@
+Article 1-N Category
+Article N-1 Company
+Article N-1 ArticleType
+Article N-1 ArticleToughness
+Article N-1 ArticleUnit
+Article N-1 ArticleVat
+Article 1-N ArticleDarkstore (as darkstores_articles)
+Article 1-1 ArticleDarkstore (as darkstore_data)
+Article 1-N ArticleImage (as images)
+Article 1-1 ArticleImage (as main_image)
+Article N-M Article (through CrossSellingArticle)
+Article 1-N ArticlePrices
+Article 1-N ArticleEan
+
+ArticleDarkstore N-1 DarkStore (as darkstore)
+ArticleDarkstore N-1 Article (as details)
+ArticleDarkstore 1-1 ArticleDarkstorePrices (as actual_price)
+ArticleDarkstore 1-N ArticleDarkstorePrices (as prices)
+ArticleDarkstore 1-N ArticleDarkstorePrices (as darkstores_prices)
+
+Category N-M Article (through ArticleToCategory) (as articles)
+Category N-M ArticleDarkstore (through ArticleToCategory) (as darkstore_articles)
+Category N-M Category (through CategoryRelations) (as parent|children)
+Category 1-N CategoryRelations
+
+Company 1-N Article
+
+Currency (No associations)
+
+Darkstore 1-N DarkstoreOpeningHours
+Darkstore 1-N DarkstoreDeliveryPrices
+Darkstore N-1 Warehouse
+
+DarkstoreBox N-1 DarkstoreTetrisStructure (as place_data)
+DarkstoreBox N-M Article (through ArticleDarkstoreGood) (as articles_data)
+DarkstoreBox 1-N ArticleDarkstoreGood (as articles)
+
+DarkstoreTetrisStructure 1-N DarkstoreBox (as place_id)
+DarkstoreTetrisStructure N-1 Darkstore
+DarkstoreTetrisStructure N-1 DarkstoreTetrisStructureType
+
+FiscalPrinterDailyReport N-1 ApiKey (as device)
+
+InventoryReport 1-N InventoryWarehouse (as raport_data)
+
+InventoryWarehouse N-1 InventoryReport (as report_data)
+InventoryWarehouse N-1 Warehouse (as warehouse_data)
+InventoryWarehouse N-1 Article (as article_data)
+InventoryWarehouse N-1 Worker (as worker_data)
+
+Order 1-N OrderArticle (as article_data)
+Order 1-N DarkstoreDeliveryPrices (as deliveryPrices)
+Order N-1 DarkStore 
+Order N-1 Voucher 
+Order N-1 UserShop 
+Order N-1 UserShopInvoice
+Order N-1 PaymentMethod
+Order N-1 Worker (as picker_data)
+Order N-1 Worker (as rider_data)
+
+OrderArticle 1-1 ArticleDarkstoreGood
+OrderArticle N-1 Order
+OrderArticle N-1 Article
+OrderArticle N-M DarkstoreBox (through ArticleDarkstoreGood) (as box_data)
+
+OrderCancel 1-N OrderCancelArticle
+OrderCancel N-1 UserShop
+OrderCancel N-1 Darkstore
+
+OrderCancelArticle N-1 OrderCancel
+OrderCancelArticle N-1 Article
+
+OrderCompletedArticle N-1 OrderCompleted
+OrderCompletedArticle N-1 Article
+
+OrderPaymentResign N-1 UserShop (as user_data)
+
+OrderSaved N-1 UserShop (as user_data)
+OrderSaved 1-N OrderSavedArticle (as articles_data)
+OrderSaved N-M UserShop (through OrderSavedArticle)
+
+OrderSavedArticle N-1 OrderSaved (as order_data)
+OrderSavedArticle N-1 Article (as article_detail)
+
+PaymentMethod 1-N Order (as active_order)
+
+RiderCoord N-1 Worker (as rider)  
+
+RiderHint N-1 Worker (as rider)
+
+Scanner N-1 Darkstore (as darkstore_data)
+Scanner N-1 Warehouse (as warehouse_data)
+Scanner 1-1 Order (as order_data)
+
+Supplier 1-N SupplierContact (as contacts)
+Supplier N-M Article (through SupplierForArticle) (as supplier_articles)
+
+SupplierContact N-1 Supplier
+
+UserBackoffice N-M Darkstore (through UserBackofficeAccessDarkstores) (as darkstore_access)
+UserBackoffice N-M Warehouse (through UserBackofficeAccessWarehouses) (as warehouse_access)
+UserBackoffice 1-1 UserBackofficeRefreshToken
+UserBackoffice N-1 UserBackofficeRole (as role_definition)
+
+UserBackofficeAccessDarkstores N-1 UserBackoffice
+UserBackofficeAccessDarkstores N-1 Darkstore
+
+UserBackofficeAccessWarehouses N-1 UserBackoffice
+UserBackofficeAccessWarehouses N-1 Warehouse
+
+UserBackofficeActions N-1 UserBackoffice (as user)
+
+UserBackofficeRefreshToken N-1 UserBackoffice
+
+UserBackofficeRole 1-N UserBackoffice
+
+UserCoord N-1 UserShop
+
+UserShop 1-1 UserShopRefreshToken (as refreshTokens)
+UserShop 1-N UserShopAddress (as addresses)
+UserShop 1-N UserShopContact (as contacts)
+UserShop 1-N UserShopInvoice (as invoices)
+UserShop 1-N Order (as order)
+UserShop N-M Article (through UserShopWishlist) (as wishlist)
+UserShop N-M UserShopDeviceToken (through UserShopToDeviceToken) (as device_tokens)
+
+UserShopAddress N-1 UserShop
+
+UserShopContact N-1 UserShop
+
+UserShopInvoice N-1 UserShop
+
+UserShopRefreshToken N-1 UserShop
+
+UserShopWishlist N-1 UserShop
+UserShopWishlist N-1 Article (as wishlist)
+
+Warehouse 1-N Darkstore (as darkstores)
